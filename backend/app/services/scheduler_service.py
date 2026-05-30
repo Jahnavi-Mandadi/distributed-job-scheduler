@@ -1,4 +1,7 @@
 from apscheduler.schedulers.background import BackgroundScheduler
+from app.models.dag_run_model import DagRun
+
+from  app.extensions import db  
 
 scheduler = BackgroundScheduler()
 
@@ -20,8 +23,17 @@ def check_scheduled_dags(app):
         for dag in dags:
 
             print(
-                f"DAG ID={dag.id}, Name={dag.name}"
+                f"Creating DagRun for DAG{dag.name}"
             )
+            dag_run=DagRun(
+                dag_id=dag.id,
+                state="running"
+
+            )
+            db.session.add(dag_run)
+
+        db.session.commit()
+        print("DagRuns created successfully")
 
 
 def start_scheduler(app):
