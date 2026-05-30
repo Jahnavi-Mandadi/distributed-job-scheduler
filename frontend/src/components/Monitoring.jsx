@@ -67,7 +67,6 @@ function Monitoring() {
             <th>Status</th>
           </tr>
         </thead>
-
         <tbody>
 
           {dagRuns.map(run=>(
@@ -101,27 +100,26 @@ function Monitoring() {
 >
 
         <thead>
-          <tr>
-            <th>ID</th>
-            <th>Task ID</th>
-            <th>Status</th>
+        <tr>
+          <th>ID</th>
+          <th>Task ID</th>
+          <th>DAG Run ID</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {taskRuns.map((run) => (
+          <tr key={run.id}>
+            <td>{run.id}</td>
+            <td>{run.task_id}</td>
+            <td>{run.dag_run_id}</td>
+            <td style={{ textAlign: "center" }}>
+              <StatusBadge status={run.state} />
+            </td>
           </tr>
-        </thead>
-
-        <tbody>
-
-          {taskRuns.map(run=>(
-            <tr key={run.id}>
-              <td>{run.id}</td>
-              <td>{run.task_id}</td>
-              <td style={{ textAlign: "center" }}>
-                <StatusBadge status={run.state} />
-              </td>
-            </tr>
-          ))}
-
-        </tbody>
-
+        ))}
+      </tbody>
       </table>
 
     </div>

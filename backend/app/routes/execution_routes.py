@@ -43,8 +43,16 @@ def run_dag(dag_id):
         for  task_run in runnable_tasks:
             execute_task(task_run)
 
-    dag_run.state='success'
+    failed_tasks =TaskRun.query.filter_by(
+        dag_run_id=dag_run.id,
+        state='failed'
+    ).all()
 
+    if failed_tasks:
+        dag_run.state='failed'
+    else:
+        dag_run.state='success'
+    
     db.session.commit()
     
 
